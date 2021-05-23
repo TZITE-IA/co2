@@ -1,22 +1,14 @@
 from flask import Flask, request, jsonify
 from sharedTools import *
-# import logging
-# try:
-#     from flask_cors import CORS  # The typical way to import flask-cors
-# except ImportError:
-#     # Path hack allows examples to be run without installation.
-#     import os
-#     parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#     os.sys.path.insert(0, parentdir)
-
-#     from flask_cors import CORS
+from flask_cors import CORS
 
 
 app= Flask(__name__)
 DB = database("db")
 # logging.basicConfig(level=logging.INFO)
 # logging.getLogger('flask_cors').level = logging.DEBUG
-# CORS(app)
+CORS(app)
+cors = CORS(app, resources={r"/*":{"origins": "*"}})
 
 @app.route("/")
 def all():
@@ -27,7 +19,7 @@ def all():
 def sensor(sen):
       for s in DB.load():
             if sen == s["name"]:
-                  return jsonify(s).headers.add("Access-Control-Allow-Origin", "*")
+                  return jsonify(s)
 
 @app.route("/new/<string:sen>", methods=["POST"])
 def postNewSensor(sen):
