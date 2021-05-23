@@ -1,12 +1,1 @@
 certifi==2020.12.5
-click @ file:///tmp/build/80754af9/click_1621604852318/work
-Flask==2.0.1
-Flask-Cors @ file:///tmp/build/80754af9/flask_cors_1614875208036/work
-gunicorn==20.1.0
-importlib-metadata @ file:///tmp/build/80754af9/importlib-metadata_1617877307939/work
-itsdangerous @ file:///tmp/build/80754af9/itsdangerous_1621432558163/work
-Jinja2==3.0.1
-MarkupSafe @ file:///tmp/build/80754af9/markupsafe_1621523467000/work
-six==1.16.0
-Werkzeug==2.0.1
-zipp @ file:///tmp/build/80754af9/zipp_1615904174917/work
