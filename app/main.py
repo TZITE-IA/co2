@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from sharedTools import *
+
 
 app= Flask(__name__)
 DB = database("db")
+cors = CORS(app)
 
 @app.route("/")
 def all():
