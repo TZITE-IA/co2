@@ -23,8 +23,9 @@ def sensor(sen):
 
 @app.route("/new/<string:sen>", methods=["POST"])
 def postNewSensor(sen):
+      return jsonify({"respuesta": "funciona aqui"})
       db = DB.load()
-      return jsonify({"respuesta", "funciona aqui"})
+      
       exist = ["True" for i, s in enumerate(db) if sen == s["name"]]
       if len(exist) > 0:
             return jsonify({"error": "'"+sen+"' alrredy exists"})
