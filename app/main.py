@@ -20,9 +20,9 @@ def sensor(sen):
             if sen == s["name"]:
                   return jsonify(s)
 
-@app.route("/new/<string:sen>", methods=["POST"])
+@app.route("/new/<string:sen>")
 def postNewSensor(sen):
-      return jsonify({"respuesta": "funciona aqui"})
+      #return jsonify({"respuesta": "funciona aqui"})
       db = DB.load()
       
       exist = ["True" for i, s in enumerate(db) if sen == s["name"]]
