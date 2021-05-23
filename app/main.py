@@ -1,22 +1,22 @@
 from flask import Flask, request, jsonify
 from sharedTools import *
-import logging
-try:
-    from flask_cors import CORS  # The typical way to import flask-cors
-except ImportError:
-    # Path hack allows examples to be run without installation.
-    import os
-    parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    os.sys.path.insert(0, parentdir)
+# import logging
+# try:
+#     from flask_cors import CORS  # The typical way to import flask-cors
+# except ImportError:
+#     # Path hack allows examples to be run without installation.
+#     import os
+#     parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#     os.sys.path.insert(0, parentdir)
 
-    from flask_cors import CORS
+#     from flask_cors import CORS
 
 
 app= Flask(__name__)
 DB = database("db")
-logging.basicConfig(level=logging.INFO)
-logging.getLogger('flask_cors').level = logging.DEBUG
-CORS(app)
+# logging.basicConfig(level=logging.INFO)
+# logging.getLogger('flask_cors').level = logging.DEBUG
+# CORS(app)
 
 @app.route("/")
 def all():
