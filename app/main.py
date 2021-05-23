@@ -8,7 +8,7 @@ DB = database("db")
 # logging.basicConfig(level=logging.INFO)
 # logging.getLogger('flask_cors').level = logging.DEBUG
 CORS(app)
-cors = CORS(app, resources={r"/*":{"origins": "*"}})
+#cors = CORS(app, resources={r"/*":{"origins": "*"}})
 
 @app.route("/")
 def all():
