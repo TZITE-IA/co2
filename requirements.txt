@@ -1,4 +1,3 @@
-certifi==2020.12.5
 click @ file:///tmp/build/80754af9/click_1621604852318/work
 Flask==2.0.1
 Flask-Cors @ file:///tmp/build/80754af9/flask_cors_1614875208036/work
