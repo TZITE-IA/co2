@@ -24,7 +24,7 @@ def all():
       print([s["label"] for s in db])
       return jsonify(db)
     
-@app.route("/<string:sensor>")
+@app.route("/<string:sen>")
 def sensor(sen):
       for s in DB.load():
             if sen == s["label"]:
