@@ -3,10 +3,6 @@ from sharedTools import *
 
 app= Flask(__name__)
 DB = database("db")
-app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
-app.config['CORS_HEADERS'] = 'Content-Type'
-
-cors = CORS(app, resources={r"/foo": {"origins": "http://localhost:port"}})
 
 @app.route("/")
 def all():
