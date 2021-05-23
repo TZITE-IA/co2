@@ -5,8 +5,7 @@ from flask_cors import CORS
 
 app= Flask(__name__)
 DB = database("db")
-# logging.basicConfig(level=logging.INFO)
-# logging.getLogger('flask_cors').level = logging.DEBUG
+app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 #cors = CORS(app, resources={r"/*":{"origins": "*"}})
 
