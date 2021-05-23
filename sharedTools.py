@@ -2,7 +2,7 @@ import json
 
 class database(object):
     def __init__(self, file):
-        self.file = file
+        self.file = file+".json"
         
     def load(self):
         with open('app/db.json') as json_file:
