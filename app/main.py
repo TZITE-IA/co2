@@ -21,7 +21,7 @@ CORS(app)
 @app.route("/")
 def all():
       db = DB.load()
-      return jsonify(db).headers.add("Access-Control-Allow-Origin", "*")
+      return jsonify(db)
     
 @app.route("/<string:sen>")
 def sensor(sen):
