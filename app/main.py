@@ -26,7 +26,9 @@ def all():
     
 @app.route("/<string:sensor>")
 def sensor(sen):
-      return jsonify([s for s in DB.load() if sen == s["label"]][0])
+      for s in DB.load():
+            if sen == s["label"]:
+                  return jsonify(s)
 
 @app.route("/new", methods=["POST"])
 def postNewSensor():
