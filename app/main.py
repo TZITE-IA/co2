@@ -22,10 +22,14 @@ def sensor(sen):
             
 @app.route("/last/<string:val>")
 def lastVal(val):
+      try:
+            val = int(val)
+      except Exception:
+            return jsonify({"error": val +" no es una entrada valida"})
       db = []
       for i, d in enumerate(DB.load()):
             db.append({"name":d["name"], "series":[]})
-            for series in d["series"][::-1][:20]:
+            for series in d["series"][::-1][:int(val)]:
                   db[i]["series"].append(series)
             i+=1;
       return jsonify(db)
