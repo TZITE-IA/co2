@@ -19,6 +19,16 @@ def sensor(sen):
       for s in DB.load():
             if sen == s["name"]:
                   return jsonify(s)
+            
+@app.route("/last/<string:val>")
+def lastVal(val):
+      db = []
+      for i, d in enumerate(DB.load()):
+            db.append({"name":d["name"], "series":[]})
+            for series in d["series"][::-1][:20]:
+                  db[i]["series"].append(series)
+            i+=1;
+      return jsonify(db)
 
 @app.route("/new/<string:sen>")
 def postNewSensor(sen):
@@ -37,12 +47,12 @@ def clearValues(sen):
       db = DB.load()
       exist = [i for i, s in enumerate(db) if sen == s["name"]]
       if len(exist) == 0:
-            return jsonify({"error": "'"+post["name"]+"' does not exists"})
+            return jsonify({"error": "'"+sen+"' does not exists"})
       else:
             now = datetime.now()
             db[exist[0]]["series"]= []
             DB.update(db)
-            return jsonify({"sucess": "'"+post["name"]+"' fue actualizado correctamente"})
+            return jsonify({"sucess": "'"+sen+"' fue limpiado correctamente"})
 
 @app.route("/update", methods=["PUT"])
 def updateValues():
