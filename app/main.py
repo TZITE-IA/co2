@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify
+from datetime import datetime
 from sharedTools import *
 from flask_cors import CORS
 
-
+now = datetime.now()
 app= Flask(__name__)
 DB = database("db")
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -51,7 +52,7 @@ def updateValues():
       if len(exist) == 0:
             return jsonify({"error": "'"+post["name"]+"' does not exists"})
       else:
-            db[exist[0]]["series"].append(post["series"])
+            db[exist[0]]["series"].append({"value": post["series"]["value"], "name":str(now.date())+"/"+str(now.time())})
             DB.update(db)
             return jsonify({"sucess": "'"+post["name"]+"' fue actualizado correctamente"})
 
