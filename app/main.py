@@ -31,6 +31,7 @@ def lastVal(val):
             db.append({"name":d["name"], "series":[]})
             for series in d["series"][::-1][:int(val)]:
                   db[i]["series"].append(series)
+            db[i]["series"] = db[i]["series"][::-1]
             i+=1;
       return jsonify(db)
 
