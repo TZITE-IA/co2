@@ -2,7 +2,10 @@ from flask import Flask, request, jsonify
 from datetime import datetime
 from sharedTools import *
 from flask_cors import CORS
+import numpy as np
 
+x = np.array([1,2])
+x = x+2
 app= Flask(__name__)
 DB = database("db")
 app.config['CORS_HEADERS'] = 'Content-Type'
