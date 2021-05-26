@@ -12,6 +12,10 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 #cors = CORS(app, resources={r"/*":{"origins": "*"}})
 
+@app.route("/numpy")
+def numpy():
+      return jsonify(x)
+
 @app.route("/")
 def all():
       db = DB.load()
