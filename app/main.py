@@ -2,20 +2,17 @@ from flask import Flask, request, jsonify
 from datetime import datetime
 from sharedTools import *
 from flask_cors import CORS
-import numpy as np
+import math
 
-x = np.array([1,2])
-x = x+2
 app= Flask(__name__)
 DB = database("db")
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 #cors = CORS(app, resources={r"/*":{"origins": "*"}})
 
-@app.route("/numpy")
+@app.route("/math")
 def numpy():
-      f = x[0]
-      return jsonify({"result": str(f)})
+      return jsonify({"result": str(math.log(1))})
 
 @app.route("/")
 def all():
