@@ -14,7 +14,8 @@ CORS(app)
 
 @app.route("/numpy")
 def numpy():
-      return jsonify(x)
+      f = x[0]
+      return jsonify({"result": str(f)})
 
 @app.route("/")
 def all():
