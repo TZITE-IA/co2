@@ -56,7 +56,7 @@ def ACH(inicio, final, afuera_i, afuera_f):
     tiempo2 = tiempo2[0] + tiempo2[1] + tiempo2[2]
     
     ## calculo de ACH #######################
-    C_amb = afuera_f['value'] - afuera_i['value'] 
+    C_amb = afuera_f['value'] + afuera_i['value'] 
     C_amb = C_amb / 2
     C_start = inicio['value']
     C_end = final['value']
