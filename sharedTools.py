@@ -60,8 +60,9 @@ def ACH(inicio, final, afuera_i, afuera_f):
     C_amb = C_amb / 2
     C_start = inicio['value']
     C_end = final['value']
-    x = (C_end - C_amb) / (C_start - C_amb)
+    epsilon = 0.000000000000000000000000000005
+    x = (C_end - C_amb) / (C_start - C_amb + epsilon)
     x = -1 * math.log(x)
-    x = x / (tiempo2 - tiempo1)
+    x = x / (60)
     
     return x
