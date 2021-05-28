@@ -50,10 +50,10 @@ def lastVal(val): #actualizado
             return jsonify({"error": val +" no es una entrada valida"})
       db = []
       for i, d in enumerate(DB.load()):
-            db.append({"name":d["name"], "params":[{"name":"Adentro","series":[]},{"name":"Afuera","series":[]}]})
+            db.append({"name":d["name"], "series":[]})
             for j, b in enumerate(d["params"]):
                   for series in b["series"][::-1][:int(val)]:
-                        db[i]["params"][j]["series"].append(series)
+                        db[i]["series"].append(series)
                   j+=1
             i+=1
       return jsonify(db)
