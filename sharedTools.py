@@ -29,7 +29,7 @@ def exist(name, db):
     
 def ACH(inicio, final, afuera_i, afuera_f):
     """
-    inicio - {CO2 adendtro t1, time}
+    inicio - {CO2 adentro t1, time}
     final -  {CO2 adentro t2, time}
     afuera_i {CO2 afuera t1, time}
     afuera_f {CO2 afuera t2, time}
@@ -61,7 +61,7 @@ def ACH(inicio, final, afuera_i, afuera_f):
     C_start = inicio['value']
     C_end = final['value']
     epsilon = 0.000000000000000000000000000005
-    x = (C_end - C_amb) / (C_start - C_amb + epsilon)
+    x = (C_end - C_amb+ epsilon) / (C_start - C_amb + epsilon)
     x = -1 * math.log(x)
     x = x / (60)
     

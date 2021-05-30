@@ -16,12 +16,7 @@ def all():
 def allIn():
       db = []
       for i, d in enumerate(DB.load()):
-            db.append({"name":d["name"], "series":[]})
-            for j, b in enumerate(d["params"]):
-                  for series in b["series"]:
-                        db[i]["series"].append(series)
-                  j+=1
-            i+=1
+            db.append({"name":d["name"], "series":d["params"][0]["series"]})
       return jsonify(db)
 
 @app.route("/out") #actualizado
