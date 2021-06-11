@@ -5,6 +5,7 @@ from flask_cors import CORS
 
 app= Flask(__name__)
 DB = database("db")
+log = database("login")
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
@@ -29,14 +30,14 @@ def allOut():
                   j+=1
             i+=1
       return jsonify(db)
-    
+
 @app.route("/<string:sen>") #actualizado
 def sensor(sen):
       for s in DB.load():
             if sen == s["name"]:
                   return jsonify(s)
       return jsonify({"error":"'"+sen+"' not exist"})
-            
+
 @app.route("/last/<string:val>")
 def lastVal(val): #actualizado
       try:
@@ -62,7 +63,7 @@ def postNewSensor(sen):
             db.append({"name":sen,"params": [{"name": "Adentro", "series": []},{"name": "Afuera", "series": []}]})
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' fue creado correctamente"})
-      
+
 @app.route("/clear/<string:sen>") #actualizado
 def clearValues(sen):
       db = DB.load()
@@ -100,7 +101,6 @@ def updateValues():
                         db[exist[0]]["params"][i]["series"].append({"value": post["series"]["value"], "name":str(now.date())+"/"+str(now.time())})
             DB.update(db)
             return jsonify({"sucess": "'"+post["name"]+"' fue actualizado correctamente"})
-      
 
 @app.route("/delete/<string:sen>", methods=["DELETE"])
 def deleteSensor(sen): #actualizado
@@ -126,4 +126,53 @@ def ach():
             except Exception:
                   temp.append({"name":sens["name"]+"-ACH", "ACH": "Faltan datos" , "time": "Sin fecha"})
       return jsonify(temp)
-      
+
+@app.route("/login/validate", methods=["POST"])
+def validate():
+      """
+      request - 
+      {
+            "user": "name",
+            "pwd" : "password"
+      }
+      """
+      post = request.json
+      users = log.load()
+      for user in users:
+            if post["user"] == user["user"]:
+                  if post["pwd"] == user["pwd"]:
+                        return jsonify({"error": "Acceso concedido", "acess": True})
+                  else:
+                        return jsonify({"error": "Contraseña incorrecta", "acess": False})
+      return jsonify({"error": "Usuario no existe", "acess": False})
+
+@app.route("/login/add", methods=["POST"])
+def addUser():
+      """
+      request - 
+      {
+            "user": "name"
+      }
+      """
+      post = request.json
+      users = log.load()
+      for user in users:
+            if post["user"] == user["user"]:
+                  return jsonify({"error": "Usuario ya existe"})
+      try:
+            users.append({"user": post["user"], "pwd" : post["pwd"]})
+            log.update(users)
+            return jsonify({"success": "Usuario registrado exitosamente"})
+      except Exception:
+            return jsonify({"error": "Entrada inválida"})
+
+@app.route("/login/delete", methods=["DELETE"])
+def deleteUser():
+      post = request.json
+      users = log.load()
+      for i, user in enumerate(users):
+            if post["user"] == user["user"]:
+                  users.pop(i)
+                  log.update(users)
+                  return jsonify({"success": "Usuario eliminado correctamente"})
+      return jsonify({"error": "Este usuario no existe"})
