@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, redirect, url_for, render_template, flash
 from datetime import datetime
 from sharedTools import *
+from ach import *
 from flask_cors import CORS
 
 app= Flask(__name__)
@@ -60,7 +61,7 @@ def postNewSensor(sen):
       if exist(sen, db):
             return jsonify({"error": "'"+sen+"' alrredy exists"})
       else:
-            db.append({"name":sen,"params": [{"name": "Adentro", "series": []},{"name": "Afuera", "series": []}]})
+            db.append({"name":sen,"params": [{"name":"ambiente","series":[]},{"name":"lateral","series":[]},{"name":"central","series":[]}]})
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' fue creado correctamente"})
 
@@ -71,7 +72,7 @@ def clearValues(sen):
       if len(exist) == 0:
             return jsonify({"error": "'"+sen+"' does not exists"})
       else:
-            db[exist[0]]["params"]= [{"name":"Adentro","series":[]},{"name":"Afuera","series":[]}]
+            db[exist[0]]["params"]= [{"name":"ambiente","series":[]},{"name":"lateral","series":[]},{"name":"central","series":[]}]
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' fue limpiado correctamente"})
 
@@ -116,16 +117,19 @@ def deleteSensor(sen): #actualizado
 @app.route("/ach")
 def ach():
       temp = []
+      x = []
       for sens in DB.load():
-            try:   
-                  inicio = sens["params"][0]["series"][::-1][1]
-                  final = sens["params"][0]["series"][::-1][0]
-                  afuera_i = sens["params"][1]["series"][::-1][1]
-                  afuera_f = sens["params"][1]["series"][::-1][0]
-                  temp.append({"name":sens["name"]+"-ACH", "ACH": ACH(inicio, final, afuera_i, afuera_f) , "time": sens["params"][0]["series"][::-1][0]["name"]})
-            except Exception:
-                  temp.append({"name":sens["name"]+"-ACH", "ACH": "Faltan datos" , "time": "Sin fecha"})
-      return jsonify(temp)
+            x.append(ach.ach_computing(sens))
+            # try:   
+            #       inicio = sens["params"][0]["series"][::-1][1]
+            #       final = sens["params"][0]["series"][::-1][0]
+            #       afuera_i = sens["params"][1]["series"][::-1][1]
+            #       afuera_f = sens["params"][1]["series"][::-1][0]
+            #       temp.append({"name":sens["name"]+"-ACH", "ACH": ACH(inicio, final, afuera_i, afuera_f) , "time": sens["params"][0]["series"][::-1][0]["name"]})
+            # except Exception:
+            #       temp.append({"name":sens["name"]+"-ACH", "ACH": "Faltan datos" , "time": "Sin fecha"})
+      print(x)
+      return jsonify({"ach":x})
 
 @app.route("/login/validate", methods=["POST"])
 def validate():

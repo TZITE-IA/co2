@@ -26,43 +26,43 @@ def exist(name, db):
         return True
     else:
         return False
+   
+# def ACH(inicio, final, afuera_i, afuera_f):
+#     """
+#     inicio - {CO2 adentro t1, time}
+#     final -  {CO2 adentro t2, time}
+#     afuera_i {CO2 afuera t1, time}
+#     afuera_f {CO2 afuera t2, time}
     
-def ACH(inicio, final, afuera_i, afuera_f):
-    """
-    inicio - {CO2 adentro t1, time}
-    final -  {CO2 adentro t2, time}
-    afuera_i {CO2 afuera t1, time}
-    afuera_f {CO2 afuera t2, time}
+#     @returns ACH
+#     """
+#     ## separar la fecha de la hora ##########
+#     tiempo1 = inicio['name'].split('/')[1]
+#     tiempo1 = tiempo1.split(':')
+#     tiempo1 = [float(i) for i in tiempo1]
     
-    @returns ACH
-    """
-    ## separar la fecha de la hora ##########
-    tiempo1 = inicio['name'].split('/')[1]
-    tiempo1 = tiempo1.split(':')
-    tiempo1 = [float(i) for i in tiempo1]
+#     tiempo2 = final['name'].split('/')[1]
+#     tiempo2 = tiempo2.split(':')
+#     tiempo2 = [float(i) for i in tiempo2]
     
-    tiempo2 = final['name'].split('/')[1]
-    tiempo2 = tiempo2.split(':')
-    tiempo2 = [float(i) for i in tiempo2]
+#     ## minutos a horas ######################
+#     tiempo1[1] = tiempo1[1] / 60
+#     tiempo2[1] = tiempo2[1] / 60
+#     ## segundos a horas #####################
+#     tiempo1[2] = tiempo1[2] / 3600
+#     tiempo2[2] = tiempo2[2] / 3600
     
-    ## minutos a horas ######################
-    tiempo1[1] = tiempo1[1] / 60
-    tiempo2[1] = tiempo2[1] / 60
-    ## segundos a horas #####################
-    tiempo1[2] = tiempo1[2] / 3600
-    tiempo2[2] = tiempo2[2] / 3600
+#     tiempo1 = tiempo1[0] + tiempo1[1] + tiempo1[2]
+#     tiempo2 = tiempo2[0] + tiempo2[1] + tiempo2[2]
     
-    tiempo1 = tiempo1[0] + tiempo1[1] + tiempo1[2]
-    tiempo2 = tiempo2[0] + tiempo2[1] + tiempo2[2]
+#     ## calculo de ACH #######################
+#     C_amb = afuera_f['value'] + afuera_i['value'] 
+#     C_amb = C_amb / 2
+#     C_start = inicio['value']
+#     C_end = final['value']
+#     epsilon = 0.000000000000000000000000000005
+#     x = (C_end - C_amb+ epsilon) / (C_start - C_amb + epsilon)
+#     x = -1 * math.log(x)
+#     x = x / (60)
     
-    ## calculo de ACH #######################
-    C_amb = afuera_f['value'] + afuera_i['value'] 
-    C_amb = C_amb / 2
-    C_start = inicio['value']
-    C_end = final['value']
-    epsilon = 0.000000000000000000000000000005
-    x = (C_end - C_amb+ epsilon) / (C_start - C_amb + epsilon)
-    x = -1 * math.log(x)
-    x = x / (60)
-    
-    return x
+#     return x

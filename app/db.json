@@ -1,1 +1,1 @@
-[{"name": "sensor", "params": [{"name": "Adentro", "series": [{"value": 40, "name": "2021-05-30/12:17:24.421292"}]}, {"name": "Afuera", "series": [{"value": 40, "name": "2021-05-29/18:51:59.223058"}, {"value": 40, "name": "2021-05-30/12:16:45.648878"}]}]}]
+[{"name": "Sensor", "params": [{"name": "ambiente", "series": [{"value": 400, "name": "2021-06-19/04:40:28.772674"}]}, {"name": "lateral", "series": [{"value": 650, "name": "2021-06-19/04:40:11.776962"}]}, {"name": "central", "series": [{"value": 600, "name": "2021-06-19/04:39:45.012010"}]}]}]
