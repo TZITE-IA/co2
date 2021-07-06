@@ -10,6 +10,8 @@ log = database("login")
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
+#Iot de CO2s
+
 @app.route("/") #actualizado
 def all():
       return jsonify(DB.load())
@@ -61,7 +63,7 @@ def postNewSensor(sen):
       if exist(sen, db):
             return jsonify({"error": "'"+sen+"' alrredy exists"})
       else:
-            db.append({"name":sen,"params": [{"name":"ambiente","series":[]},{"name":"lateral","series":[]},{"name":"central","series":[]}]})
+            db.append({"name":sen,"params": [{"name":"lateral","series":[]},{"name":"central","series":[]}]})
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' fue creado correctamente"})
 
@@ -85,6 +87,8 @@ def updateValues():
         "site": "ubicación"
         "series": {
           "value": number,
+          "temp": number, 
+          "hum": number,
           "name": string
           }
       }
@@ -114,6 +118,8 @@ def deleteSensor(sen): #actualizado
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' was deleted"})
 
+#Cálculo de ACH
+
 @app.route("/ach")
 def ach():
       temp = []
@@ -130,6 +136,8 @@ def ach():
             #       temp.append({"name":sens["name"]+"-ACH", "ACH": "Faltan datos" , "time": "Sin fecha"})
       print(x)
       return jsonify({"ach":x})
+
+#Access login
 
 @app.route("/login/validate", methods=["POST"])
 def validate():
