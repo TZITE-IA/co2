@@ -74,7 +74,7 @@ def clearValues(sen):
       if len(exist) == 0:
             return jsonify({"error": "'"+sen+"' does not exists"})
       else:
-            db[exist[0]]["params"]= [{"name":"ambiente","series":[]},{"name":"lateral","series":[]},{"name":"central","series":[]}]
+            db[exist[0]]["params"]= [{"name":"lateral","series":[]},{"name":"central","series":[]}]
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' fue limpiado correctamente"})
 
