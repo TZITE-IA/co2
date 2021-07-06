@@ -103,7 +103,11 @@ def updateValues():
             now = datetime.now()
             for i, ub in enumerate(db[exist[0]]["params"]):
                   if ub["name"] == post["site"]:
-                        db[exist[0]]["params"][i]["series"].append({"value": post["series"]["value"], "name":str(now.date())+"/"+str(now.time())})
+                        db[exist[0]]["params"][i]["series"].append(
+                              {"value": post["series"]["value"], 
+                               "temp": post["series"]["temp"], 
+                               "hum": post["series"]["hum"],
+                               "name": str(now.date())+"/"+str(now.time())} )
             DB.update(db)
             return jsonify({"sucess": "'"+post["name"]+"' fue actualizado correctamente"})
 
