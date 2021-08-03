@@ -11,42 +11,36 @@ log = database("login")
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
-#Test
-@app.route("/test")
-def test():
-      x = np.array([1, 2, 3, 4])
-      return "Hola: "+str(x*4)
 
 #Iot de CO2s
 
-@app.route("/") #falta actualizar
+@app.route("/") #Actualizada
 def all():
       return jsonify(DB.load())
 
-@app.route("/in") #falta actualizar
-def allIn():
-      db = []
-      for i, d in enumerate(DB.load()):
-            db.append({"name":d["name"], "series":d["params"][0]["series"]})
+@app.route("/central") #Actualizada
+def allCentral():
+      db = {}
+      d = DB.load()
+      for key in d.keys():
+            db[key] = d[key]["central"]
       return jsonify(db)
 
-@app.route("/out") #falta actualizar
-def allOut():
-      db = []
-      for i, d in enumerate(DB.load()):
-            db.append({"name":d["name"], "series":[]})
-            for j, b in enumerate([d["params"][1]]):
-                  db[i]["series"].append(b["series"])
-                  j+=1
-            i+=1
+@app.route("/lateral") #Actualizada
+def allLateral():
+      db = {}
+      d = DB.load()
+      for key in d.keys():
+            db[key] = d[key]["lateral"]
       return jsonify(db)
 
-@app.route("/<string:sen>") #falta actualizar
+@app.route("/<string:sen>") #Actualizado
 def sensor(sen):
-      for s in DB.load():
-            if sen == s["name"]:
-                  return jsonify(s)
-      return jsonify({"error":"'"+sen+"' not exist"})
+      db = DB.load()
+      if exist(sen, db):
+            return jsonify(db[sen])
+      else:
+            return jsonify({"error":"'"+sen+"' not exist"})
 
 @app.route("/last/<string:val>")
 def lastVal(val): #falta actualizar
@@ -54,38 +48,40 @@ def lastVal(val): #falta actualizar
             val = int(val)
       except Exception:
             return jsonify({"error": val +" no es una entrada valida"})
-      db = []
-      for i, d in enumerate(DB.load()):
-            db.append({"name":d["name"], "series":[]})
-            for j, b in enumerate(d["params"]):
-                  for series in b["series"][::-1][:int(val)]:
-                        db[i]["series"].append(series)
-                  j+=1
-            i+=1
+      db = {}
+      d = DB.load()
+      for key in d.keys():
+            db[key] = {"central":{"DATE": d[key]["central"]["DATE"][::-1][::val],
+                                  "HUM":d[key]["central"]["HUM"][::-1][::val],
+                                  "PPM":d[key]["central"]["PPM"][::-1][::val],
+                                  "TEMP":d[key]["central"]["TEMP"][::-1][::val]},
+                       "lateral":{"DATE":d[key]["central"]["DATE"][::-1][::val],
+                                  "HUM":d[key]["central"]["HUM"][::-1][::val],
+                                  "PPM":d[key]["central"]["PPM"][::-1][::val],
+                                  "TEMP":d[key]["central"]["TEMP"][::-1][::val]}}
       return jsonify(db)
 
-@app.route("/new/<string:sen>") #falta actualizar
+@app.route("/new/<string:sen>") #Actualizado
 def postNewSensor(sen):
       db = DB.load()
       if exist(sen, db):
             return jsonify({"error": "'"+sen+"' alrredy exists"})
       else:
-            db.append({"name":sen,"params": [{"name":"lateral","series":[]},{"name":"central","series":[]}]})
+            db[sen] = {"central":{"DATE":[],"HUM":[],"PPM":[],"TEMP":[]},"lateral":{"DATE":[],"HUM":[],"PPM":[],"TEMP":[]}}
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' fue creado correctamente"})
 
-@app.route("/clear/<string:sen>") #falta actualizar
+@app.route("/clear/<string:sen>") #Actualizado
 def clearValues(sen):
       db = DB.load()
-      exist = [i for i, s in enumerate(db) if sen == s["name"]]
-      if len(exist) == 0:
-            return jsonify({"error": "'"+sen+"' does not exists"})
-      else:
-            db[exist[0]]["params"]= [{"name":"lateral","series":[]},{"name":"central","series":[]}]
+      if exist(sen, db):
+            db[sen] = {"central":{"DATE":[],"HUM":[],"PPM":[],"TEMP":[]},"lateral":{"DATE":[],"HUM":[],"PPM":[],"TEMP":[]}}
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' fue limpiado correctamente"})
+      else:
+            return jsonify({"error": "'"+sen+"' does not exists"})
 
-@app.route("/update", methods=["PUT"]) #falta actualizar
+@app.route("/update", methods=["PUT"]) #Actualizado
 def updateValues():
       """
       request - 
@@ -93,41 +89,34 @@ def updateValues():
         "name": "nombre",
         "site": "ubicación"
         "series": {
-          "value": number,
-          "temp": number, 
-          "hum": number,
-          "name": string
+            "HUM": [],
+            "PPM": [],
+            "TEMP": []
           }
       }
       """
       post = request.json
-      
       db = DB.load()
-      exist = [i for i, s in enumerate(db) if post["name"] == s["name"]]
-      if len(exist) == 0:
-            return jsonify({"error": "'"+post["name"]+"' does not exists"})
-      else:
+      if exist(post["name"], db):
             now = datetime.now()
-            for i, ub in enumerate(db[exist[0]]["params"]):
-                  if ub["name"] == post["site"]:
-                        db[exist[0]]["params"][i]["series"].append(
-                              {"value": post["series"]["value"], 
-                               "temp": post["series"]["temp"], 
-                               "hum": post["series"]["hum"],
-                               "name": str(now.date())+"/"+str(now.time())} )
+            db[post["name"]][post["site"]]["PPM"].append(post["series"]["PPM"])
+            db[post["name"]][post["site"]]["HUM"].append(post["series"]["HUM"])
+            db[post["name"]][post["site"]]["TEMP"].append(post["series"]["TEMP"])
+            db[post["name"]][post["site"]]["DATE"].append(str(now.date())+"/"+str(now.time()))
             DB.update(db)
             return jsonify({"sucess": "'"+post["name"]+"' fue falta actualizar correctamente"})
+      else:
+            return jsonify({"error": "'"+post["name"]+"' does not exists"})
 
 @app.route("/delete/<string:sen>", methods=["DELETE"])
-def deleteSensor(sen): #falta actualizar
+def deleteSensor(sen): #Actualizado
       db = DB.load()
-      exist = [i for i, s in enumerate(db) if sen == s["name"]]
-      if len(exist) == 0:
-            return jsonify({"error": "'"+sen+"' does not exists"})
-      else:
-            db.pop(exist[0])
+      if exist(sen, db):
+            db.pop(sen)
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' was deleted"})
+      else:
+            return jsonify({"error": "'"+sen+"' does not exists"})
 
 #Cálculo de ACH
 

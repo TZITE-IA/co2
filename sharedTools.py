@@ -21,7 +21,7 @@ def exist(name, db):
     """
     Returns True if exists the name else False
     """
-    exist = ["True" for i, s in enumerate(db) if name == s["name"]]
+    exist = ["True" for key in db.keys() if name == key]
     if len(exist) > 0:
         return True
     else:
