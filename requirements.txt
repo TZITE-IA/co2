@@ -13,6 +13,7 @@ Jinja2==3.0.1
 MarkupSafe==2.0.1
 marshmallow==3.12.1
 marshmallow-sqlalchemy==0.25.0
+numpy==1.21.1
 requests-toolbelt==0.9.1
 SQLAlchemy==1.4.15
 Werkzeug==2.0.1
