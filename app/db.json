@@ -1,1 +1,30 @@
-[{"name": "Sensor", "params": [{"name": "lateral", "series": [{"value": 650, "temp": 25, "hum": 60, "name": "2021-06-19/04:40:11.776962"}]}, {"name": "central", "series": [{"value": 600, "temp": 25, "hum": 60, "name": "2021-06-19/04:39:45.012010"}]}]}, {"name": "test", "params": [{"name": "lateral", "series": []}, {"name": "central", "series": []}]}]
+{
+  "NombreSensor1":{
+      "central":{
+          "PPM"  :  [],
+          "TEMP" :  [],
+          "HUM"  :  [],
+          "DATE" :  []
+      },
+      "lateral":{
+          "PPM"  :  [],
+          "TEMP" :  [],
+          "HUM"  :  [],
+          "DATE" :  []
+      } 
+  },
+  "NombreSensor2":{
+        "central":{
+          "PPM"  :  [],
+          "TEMP" :  [],
+          "HUM"  :  [],
+          "DATE" :  []
+      },
+      "lateral":{
+          "PPM"  :  [],
+          "TEMP" :  [],
+          "HUM"  :  [],
+          "DATE" :  []
+      } 
+  }
+}

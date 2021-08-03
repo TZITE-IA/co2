@@ -19,18 +19,18 @@ def test():
 
 #Iot de CO2s
 
-@app.route("/") #actualizado
+@app.route("/") #falta actualizar
 def all():
       return jsonify(DB.load())
 
-@app.route("/in") #actualizado
+@app.route("/in") #falta actualizar
 def allIn():
       db = []
       for i, d in enumerate(DB.load()):
             db.append({"name":d["name"], "series":d["params"][0]["series"]})
       return jsonify(db)
 
-@app.route("/out") #actualizado
+@app.route("/out") #falta actualizar
 def allOut():
       db = []
       for i, d in enumerate(DB.load()):
@@ -41,7 +41,7 @@ def allOut():
             i+=1
       return jsonify(db)
 
-@app.route("/<string:sen>") #actualizado
+@app.route("/<string:sen>") #falta actualizar
 def sensor(sen):
       for s in DB.load():
             if sen == s["name"]:
@@ -49,7 +49,7 @@ def sensor(sen):
       return jsonify({"error":"'"+sen+"' not exist"})
 
 @app.route("/last/<string:val>")
-def lastVal(val): #actualizado
+def lastVal(val): #falta actualizar
       try:
             val = int(val)
       except Exception:
@@ -64,7 +64,7 @@ def lastVal(val): #actualizado
             i+=1
       return jsonify(db)
 
-@app.route("/new/<string:sen>") #actualizado
+@app.route("/new/<string:sen>") #falta actualizar
 def postNewSensor(sen):
       db = DB.load()
       if exist(sen, db):
@@ -74,7 +74,7 @@ def postNewSensor(sen):
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' fue creado correctamente"})
 
-@app.route("/clear/<string:sen>") #actualizado
+@app.route("/clear/<string:sen>") #falta actualizar
 def clearValues(sen):
       db = DB.load()
       exist = [i for i, s in enumerate(db) if sen == s["name"]]
@@ -85,7 +85,7 @@ def clearValues(sen):
             DB.update(db)
             return jsonify({"sucess": "'"+sen+"' fue limpiado correctamente"})
 
-@app.route("/update", methods=["PUT"]) #actualizado
+@app.route("/update", methods=["PUT"]) #falta actualizar
 def updateValues():
       """
       request - 
@@ -116,10 +116,10 @@ def updateValues():
                                "hum": post["series"]["hum"],
                                "name": str(now.date())+"/"+str(now.time())} )
             DB.update(db)
-            return jsonify({"sucess": "'"+post["name"]+"' fue actualizado correctamente"})
+            return jsonify({"sucess": "'"+post["name"]+"' fue falta actualizar correctamente"})
 
 @app.route("/delete/<string:sen>", methods=["DELETE"])
-def deleteSensor(sen): #actualizado
+def deleteSensor(sen): #falta actualizar
       db = DB.load()
       exist = [i for i, s in enumerate(db) if sen == s["name"]]
       if len(exist) == 0:
@@ -131,8 +131,8 @@ def deleteSensor(sen): #actualizado
 
 #Cálculo de ACH
 
-@app.route("/ach")
-def ach():
+@app.route("/ach") 
+def ach():   #falta actualizar
       temp = []
       x = []
       for sens in DB.load():

@@ -15,6 +15,7 @@ marshmallow==3.12.1
 marshmallow-sqlalchemy==0.25.0
 numpy==1.21.1
 requests-toolbelt==0.9.1
+six==1.16.0
 SQLAlchemy==1.4.15
 Werkzeug==2.0.1
 wrapt==1.12.1
