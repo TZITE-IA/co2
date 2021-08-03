@@ -3,12 +3,19 @@ from datetime import datetime
 from sharedTools import *
 from ach import *
 from flask_cors import CORS
+import numpy as np
 
 app= Flask(__name__)
 DB = database("db")
 log = database("login")
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
+
+#Test
+@app.route("/test")
+def test():
+      x = np.array([1, 2, 3, 4])
+      return "Hola: "+str(x*4)
 
 #Iot de CO2s
 
